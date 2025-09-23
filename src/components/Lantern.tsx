@@ -77,7 +77,7 @@ const flameVariants: Variants = {
 
 export default function Lantern({ gameStatus }: gameType) {
   return (
-    <div className="w-60 h-60 rounded-full mt-3 flex justify-center items-center  overflow-hidden">
+    <div className="w-60 h-60 md:scale-125 lg:scale-140 rounded-full flex justify-center items-center overflow-hidden">
       <motion.div
         className="w-17 h-22 bg-gradient-to-b from-rose-300 to-rose-900 rounded-full shadow-[0_0_25px_0_rgba(254,202,202,0.7)] relative"
         variants={lanternVariants}

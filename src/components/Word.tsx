@@ -11,7 +11,7 @@ const Word = ({ rndWord, userLetter, gameStatus }: wordType) => {
     const rndWordLtr = rndWord.split('')
 
     return (
-        <div className="flex gap-3 mt-5">
+        <div className="flex gap-3 md:mt-15 ">
             {rndWordLtr.map((ltr, index) =>
                 <motion.span
                     key={`${rndWord}-${index}`}

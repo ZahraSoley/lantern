@@ -14,67 +14,67 @@ interface KeyboardType {
 const Keyboard = ({ handleUserWord, rndWord, userLetter, gameStatus }: KeyboardType) => {
 
     return (
-        <>
-            <div className={clsx('self-stretch m-auto mb-6 mt-10 grid grid-cols-[repeat(13,minmax(30px,45px))] gap-2 ',
-                gameStatus === 'lost' && 'overflow-hidden'
-            )}>
-                {
-                    Letters.map(letter => {
-                        const isUsed = userLetter.includes(letter)
-                        const isWrong = userLetter.includes(letter) && !rndWord.split('').includes(letter)
-                        const randomX = Math.random() * 100 - 50;
-                        const randomDelay = Math.random() * 1.5;
-                        const randomDuration = 3 + Math.random() * 3;
-                        const randomRotate = Math.random() * 40 - 20
-                        return (
-                            <motion.button
-                                key={letter}
-                                disabled={isUsed || gameStatus != 'onGoing'}
-                                whileHover={isUsed ? { scale: 1 } : { scale: 1.1 }}
-                                whileTap={isUsed ? undefined : { scale: 0.97 }}
-                                animate={
-                                    gameStatus === 'won'
-                                        ? {
-                                            background: '#fda4af',
-                                            // background: '#881337',
-                                            borderRadius: '50%',
-                                            border: 'none',
-                                            width: '15px',
-                                            height: '15px',
-                                            boxShadow: '0 0 25px 0 rgba(254,202,202,0.7)',
-                                            opacity: 0.2,
-                                            x: randomX,
-                                            y: -500
-                                        }
-                                        : gameStatus === 'lost' && {
-                                            rotate: randomRotate,
-                                            y: 120,
-                                        }
-                                }
-                                transition={gameStatus === 'onGoing'
-                                    ? { type: 'spring', stiffness: 700, damping: 17 }
-                                    : gameStatus === 'won'
-                                        ? { duration: randomDuration, delay: randomDelay }
-                                        : { duration: 2, delay: randomDelay }
-                                }
-                                onClick={() => { handleUserWord(letter) }}
-                                className={clsx('bg-zinc-100 border-2 border-zinc-50 rounded-xl aspect-square text-2xl font-bold uppercase cursor-pointer hover:bg-zinc-600 hover:text-zinc-100 '
-                                    , isUsed && 'bg-zinc-600 text-zinc-100 pointer-events-none'
-                                    , isWrong && 'opacity-20')}
-                            >
-                                <motion.span
-                                    animate={gameStatus === 'won' && { opacity: 0 }}
-                                >{letter}
-                                </motion.span>
-                            </motion.button>
-                        )
-                    }
+
+        <div className={clsx('mb-6 grid justify-center grid-cols-[repeat(7,minmax(10px,50px))] md:grid-cols-[repeat(9,minmax(30px,70px))] lg:grid-cols-[repeat(13,minmax(30px,70px))] gap-1.5 md:gap-2 lg:mt-5',
+            gameStatus === 'lost' && 'overflow-hidden'
+        )}>
+            {
+                Letters.map(letter => {
+                    const isUsed = userLetter.includes(letter)
+                    const isWrong = userLetter.includes(letter) && !rndWord.split('').includes(letter)
+                    const randomX = Math.random() * 100 - 50;
+                    const randomDelay = Math.random() * 1.5;
+                    const randomDuration = 3 + Math.random() * 3;
+                    const randomRotate = Math.random() * 40 - 20
+                    return (
+                        <motion.button
+                            key={letter}
+                            disabled={isUsed || gameStatus != 'onGoing'}
+                            whileHover={isUsed ? { scale: 1 } : { scale: 1.1 }}
+                            whileTap={isUsed ? undefined : { scale: 0.97 }}
+                            animate={
+                                gameStatus === 'won'
+                                    ? {
+                                        background: '#fda4af',
+                                        // background: '#881337',
+                                        borderRadius: '50%',
+                                        border: 'none',
+                                        width: '15px',
+                                        height: '15px',
+                                        boxShadow: '0 0 25px 0 rgba(254,202,202,0.7)',
+                                        opacity: 0.2,
+                                        x: randomX,
+                                        y: -500
+                                    }
+                                    : gameStatus === 'lost' && {
+                                        rotate: randomRotate,
+                                        y: 120,
+                                    }
+                            }
+                            transition={gameStatus === 'onGoing'
+                                ? { type: 'spring', stiffness: 700, damping: 17 }
+                                : gameStatus === 'won'
+                                    ? { duration: randomDuration, delay: randomDelay }
+                                    : { duration: 2, delay: randomDelay }
+                            }
+                            onClick={() => { handleUserWord(letter) }}
+                            className={clsx('bg-zinc-100 border-2 lg:border-4 border-zinc-50 rounded-xl aspect-square text-2xl lg:text-4xl font-bold uppercase cursor-pointer hover:bg-zinc-600 hover:text-zinc-100 '
+                                , isUsed && 'bg-zinc-600 text-zinc-100 pointer-events-none'
+                                , isWrong && 'opacity-20')}
+                        >
+                            <motion.span
+                                animate={gameStatus === 'won' && { opacity: 0 }}
+                            >{letter}
+                            </motion.span>
+                        </motion.button>
                     )
                 }
+                )
+            }
 
-            </div >
+        </div >
 
-        </>
+
     )
 }
 
