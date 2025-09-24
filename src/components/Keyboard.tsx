@@ -20,6 +20,7 @@ const Keyboard = ({ handleUserWord, rndWord, userLetter, gameStatus }: KeyboardT
     return (
 
         <div className={clsx('m-5 grid justify-center grid-cols-[repeat(7,minmax(10px,50px))] md:grid-cols-[repeat(9,minmax(30px,60px))] lg:grid-cols-[repeat(13,minmax(30px,70px))] gap-1.5 md:gap-2 lg:mt-5',
+            gameStatus === 'lost' && 'overflow-hidden',
             gameStatus === 'lost' && 'overflow-hidden'
         )}>
             {
@@ -29,7 +30,7 @@ const Keyboard = ({ handleUserWord, rndWord, userLetter, gameStatus }: KeyboardT
                     const randomX = Math.random() * 100 - 50;
                     const randomDelay = Math.random() * 1.5;
                     const randomDuration = 3 + Math.random() * 3;
-                    const randomRotate = Math.random() * 40 - 20
+                    const randomRotate = Math.random() * 60 - 30
                     return (
                         <motion.button
                             key={letter}
@@ -50,14 +51,14 @@ const Keyboard = ({ handleUserWord, rndWord, userLetter, gameStatus }: KeyboardT
                                     }
                                     : gameStatus === 'lost' && {
                                         rotate: randomRotate,
-                                        y: 120,
+                                        y: isLg ? 200 : 250,
                                     }
                             }
                             transition={gameStatus === 'onGoing'
                                 ? { type: 'spring', stiffness: 700, damping: 17 }
                                 : gameStatus === 'won'
                                     ? { duration: isLg ? randomDuration : isMd ? 2 + randomDuration : randomDuration, delay: randomDelay }
-                                    : { duration: 2, delay: randomDelay }
+                                    : { duration: isMd ? 2.5 : 4, delay: randomDelay }
                             }
                             onClick={() => { handleUserWord(letter) }}
                             className={clsx('bg-zinc-100 border-2 md:border-4 border-zinc-50 rounded-xl aspect-square text-2xl md:text-3xl lg:text-4xl font-bold uppercase cursor-pointer hover:bg-zinc-600 hover:text-zinc-100 '

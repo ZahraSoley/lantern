@@ -17,7 +17,7 @@ const Word = ({ rndWord, userLetter, gameStatus }: wordType) => {
                     key={`${rndWord}-${index}`}
                     className={clsx(
                         "font-bold text-2xl md:text-4xl lg:text-5xl w-5 md:w-7 lg:w-10 border-b-4 md:border-b-4 pb-1 flex justify-center text-zinc-50 md:my-15",
-                        gameStatus === "lost" && "drop-shadow-[0_0_25px_rgba(254,202,202,0.7)]"
+                        // gameStatus === "lost" && "drop-shadow-[0_0_5px_rgba(254,202,202,0.7)]"
                     )}
                     animate={{
                         borderBottomColor:
