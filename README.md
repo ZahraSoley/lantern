@@ -11,8 +11,6 @@ Guess the 4-letter word. Win and the lantern glows and floats; lose and the keys
   * ![Win](./docs/win.png)
   * ![Lose](./docs/lose.png)
 
-> Put your images in a root-level `docs/` folder so GitHub can render them.
-
 ## Features
 
 * 🔤 4-letter word guessing with single-use hint
