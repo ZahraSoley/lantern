@@ -2,6 +2,7 @@ import { ArrowPathIcon } from "@heroicons/react/16/solid"
 import { LightBulbIcon } from "@heroicons/react/16/solid"
 import { HeartIcon } from "@heroicons/react/16/solid"
 import clsx from "clsx"
+import { useMediaQuery } from "react-responsive"
 
 interface headerType {
   reset: () => void,
@@ -13,13 +14,15 @@ interface headerType {
 
 const Header = ({ reset, handleHint, heart, hintLtr, userLetter }: headerType) => {
 
-  return (
-    <div className="self-stretch flex justify-between lg:justify-around items-center gap-5 my-5 ">
+  const isMd = useMediaQuery({ minWidth: 768 })
 
-      <span className="lg:text-4xl sm:text-lg font-bold text-zinc-50 ">
-        Guess the word, and let the lantern rise
-        
-      </span>
+  return (
+    <div className="self-stretch flex justify-between md:justify-around items-center gap-5 m-5">
+
+      <div className="lg:text-4xl md:text-2xl text-lg font-bold text-zinc-50 ">
+        <span >Guess the word</span>
+        {isMd && <span >, and let the lantern rise .</span>}
+      </div>
 
       <div className="flex gap-5 md:gap-10 items-center ">
         <button

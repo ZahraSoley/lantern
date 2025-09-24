@@ -20,22 +20,20 @@ export default function App() {
   }, [rndWord])
 
   return (
-    <div className='h-screen flex flex-col justify-between items-center md:w-3/4 sm:w-full mx-3 md:m-auto'>
-      <Header reset={reset} handleHint={handleHint} heart={heart} hintLtr={hintLtr} userLetter={userLetter} />
-      <Lantern gameStatus={gameStatus} />
-      <Word rndWord={rndWord} userLetter={userLetter} gameStatus={gameStatus} />
-      <AnimatePresence mode='wait'>
-        <motion.div
-          // className='flex flex-col m-auto items-center ml-3 mr-3 w-3xl'
-          key={rndWord}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}>
-          <Keyboard handleUserWord={handleUserWord} userLetter={userLetter} rndWord={rndWord} gameStatus={gameStatus} />
-        </motion.div >
-      </AnimatePresence>
+      <div className='w-[3/4] h-screen flex flex-col items-center justify-between m-auto'>
+        <Header reset={reset} handleHint={handleHint} heart={heart} hintLtr={hintLtr} userLetter={userLetter} />
+        <Lantern gameStatus={gameStatus} />
+        <Word rndWord={rndWord} userLetter={userLetter} gameStatus={gameStatus} />
+        <AnimatePresence mode='wait'>
+          <motion.div
+            key={rndWord}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}>
+            <Keyboard handleUserWord={handleUserWord} userLetter={userLetter} rndWord={rndWord} gameStatus={gameStatus} />
+          </motion.div >
+        </AnimatePresence>
     </div>
   )
 }
-
