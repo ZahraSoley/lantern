@@ -1,69 +1,117 @@
-# React + TypeScript + Vite
+# Lantern — a tiny word game with big vibes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Guess the 4-letter word. Win and the lantern glows and floats; lose and the keys tumble while the lantern dims. Smooth, purposeful motion—no jank.
 
-Currently, two official plugins are available:
+## Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **Live:** [https://lantern-omega.vercel.app/]
+* **Screens:**
 
-## Expanding the ESLint configuration
+  * ![Gameplay](./docs/game.png)
+  * ![Win](./docs/win.png)
+  * ![Lose](./docs/lose.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+> Put your images in a root-level `docs/` folder so GitHub can render them.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+* 🔤 4-letter word guessing with single-use hint
+* ❤️ Heart / lives system
+* 🏮 Lantern as hero animation (float/glow on win, dim on loss)
+* ⌨️ Animated keyboard (morph → rise on win; tilt → drop on loss)
+* 🧊 Smooth, jank-free motion (fixed containers + transforms)
+* 🧱 Clean React + TypeScript + Tailwind + Framer Motion
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Stack
+
+React • TypeScript • Framer Motion • Tailwind CSS • Heroicons
+
+## Getting Started
+
+```bash
+# install
+npm install
+
+# dev server
+npm run dev
+
+# production build
+npm run build
+
+# preview production build locally
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+  components/
+    Header.tsx
+    Keyboard.tsx
+    Lantern.tsx
+    Word.tsx
+  hooks/
+    UseLogic.ts
+  data/
+    keyLetters.json
+    wordList.json
+  App.tsx
+  App.css
+```
+
+## State & Game Logic
+
+All game state lives in a single custom hook: `UseLogic()` (no Redux/Zustand needed for this scope).
+
+**Public API**
+
+```ts
+// hooks/UseLogic.ts
+type GameStatus = 'onGoing' | 'lost' | 'won';
+
+export interface GameState {
+  rndWord: string;              // current answer
+  userLetter: string[];         // unique, normalized guesses
+  heart: number;                // lives remaining
+  gameStatus: GameStatus;       // finite state
+  hintLtr: string | null;       // one-shot hint
+
+  handleUserWord(ltr: string): void; // guess flow
+  handleHint(): void;                // reveal a letter, disable button
+  reset(): void;                     // new round
+}
+```
+
+**State machine**
+
+* `onGoing → won` when all letters are revealed
+* `onGoing → lost` when hearts reach 0
+* `reset() → onGoing` (new `rndWord`, clears round state)
+
+**Rules**
+
+* Hearts decrement only on **new** incorrect guesses (repeats don’t punish)
+* Hint is single-use per round
+* Visuals (Lantern / Keyboard / Word) are pure functions of `gameStatus`
+
+**Why no global store?**
+
+* Single-screen app: a custom hook keeps it **simple, local, and testable**
+* Easy to swap to Zustand/Redux later for **persistence** (streaks/leaderboards)
+
+**Extensibility**
+
+* Add streak/history via `localStorage` or a small Zustand store
+* Parameterize word length/difficulty via `UseLogic` options
+
+## Notes / Implementation Highlights
+
+* **Variant-driven animations:** Lantern & Keyboard use Framer Motion variants for readable, maintainable motion.
+* **No layout shifts:** reserved containers + `transform` (x/y/rotate/scale) instead of width/height where it matters.
+* **Stable randomness:** per-key randomness memoized so re-renders don’t reshuffle flight paths.
+
+## License
+
+MIT © Zahra Soleymani
+
